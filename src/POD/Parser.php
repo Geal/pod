@@ -6,6 +6,7 @@
   use \PHPZ\Maybe;
   use \PHPZ\Monad\BaseMonad;
   use \PHPZ\TypeClass\TypeClassWrapper;
+  use \PHPZ\TypeClass\TypeClassRepo;
   \PHPZ\PHPZ::init();
 
   function __t($ma) {
@@ -70,6 +71,8 @@
       });
     }
   }
+
+  TypeClassRepo::registerInstance(new ParserMonad());
 
   // Parser that will always fail
   function Failed(){
