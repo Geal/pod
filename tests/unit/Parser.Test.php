@@ -34,7 +34,7 @@ class ParserTest extends lime_test {
   public function bindTest() {
     $p1 = \POD\__t(\POD\Character());
     $p2 = $p1->bind(function($c){
-      if( ctype_upper($c)){
+      if(ctype_upper($c)){
         return \POD\Value(1);
       }else{
         return \POD\Failed();
@@ -92,6 +92,24 @@ class ParserTest extends lime_test {
     $this->is($res->fst, array(), "list1 eats all the characters");
     $this->is($res->snd, array("a", "b", "c"), "list11 returns all the characters");
   }
+
+  public function satisfyTest() {
+    $p = \POD\Satisfy(ctype_upper);
+    $this->is((string)$p->parse(""), "Nothing", "Satisfy returns Nothing on empty String");
+    $this->is((string)$p->parse("abc"), "Nothing", "Satisfy returns nothing if the condition is not met");
+    $res = $p->parse("Abc")->get();
+    $this->is($res->fst, "bc", "If the condition is satisfied, store the rest of the input");
+    $this->is($res->snd, "A", "If the condition is satisfied, return the matching character");
+  }
+
+  public function isTest() {
+    $p = \POD\is("a");
+    $this->is((string)$p->parse(""), "Nothing", "is returns Nothing on empty String");
+    $this->is((string)$p->parse("xbc"), "Nothing", "is returns nothing if the condition is not met");
+    $res = $p->parse("abc")->get();
+    $this->is($res->fst, "bc", "If the condition is satisfied, store the rest of the input");
+    $this->is($res->snd, "a", "If the condition is satisfied, return the matching character");
+  }
 }
 
 $test = new ParserTest();
@@ -104,3 +122,5 @@ $test->mapTest();
 $test->sequenceTest();
 $test->manyTest();
 $test->listTest();
+$test->satisfyTest();
+$test->isTest();

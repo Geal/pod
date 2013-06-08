@@ -182,4 +182,23 @@
     });
     return $res();
   }
+
+  //creates a parser verifying a condition on a character
+  //$fun :: Char -> Bool
+  function Satisfy($fun) {
+    $p = __t(Character());
+    $res = $p->bind(function($c) use($fun){
+      if($fun($c)){
+        return Value($c);
+      } else {
+        return Failed();
+      }
+    });
+    return $res();
+  }
+
+  //creates a parser verifying that the next character is a specific character
+  function is($char) {
+    return Satisfy(function($c) use($char){return $c === $char;});
+  }
 ?>
