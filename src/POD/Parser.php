@@ -216,7 +216,7 @@
 
   function digit()     { return Satisfy(is_numeric);};
   function space()     { return Satisfy(ctype_space);};
-  function spaces()    { return many1(space);};
+  function spaces()    { return many1(space());};
   function upper()     { return Satisfy(ctype_upper);};
   function lower()     { return Satisfy(ctype_lower);};
   function alpha()     { return Satisfy(ctype_alpha);};

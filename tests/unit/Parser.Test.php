@@ -125,6 +125,11 @@ class ParserTest extends lime_test {
     $res3 = $d->parse("79abc")->get();
     $this->is($res3->fst, "abc", "list of digits stopped at the first letter");
     $this->is($res3->snd, array("7", "9"), "list of digits selected the digit chain");
+
+    $s = \POD\spaces();
+    $res4 = $s->parse(" \t \n \r a\n")->get();
+    $this->is($res4->fst, "a\n", "spaces stop at the first non space character");
+    $this->is(implode($res4->snd), " \t \n \r ", "spaces matches space, tabs and carriage returns");
   }
 }
 
