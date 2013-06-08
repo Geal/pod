@@ -41,7 +41,8 @@
     }
 
     public function parse($str) {
-      return $this->f($str);
+      $fun = $this->f;
+      return $fun($str);
     }
   }
 
