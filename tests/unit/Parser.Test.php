@@ -110,6 +110,22 @@ class ParserTest extends lime_test {
     $this->is($res->fst, "bc", "If the condition is satisfied, store the rest of the input");
     $this->is($res->snd, "a", "If the condition is satisfied, return the matching character");
   }
+
+  public function satisfiersTest() {
+    $u = \POD\upper();
+    $this->is((string)$u->parse(""), "Nothing", "still Nothing for the empty string");
+    $this->is((string)$u->parse("a"), "Nothing", "Nothing if not uppercase");
+    $res = $u->parse("A")->get();
+    $this->is($res->snd, "A", "correctly parsed uppercase letter");
+
+    $d = \POD\list1(\POD\digit());
+    $res2 = $d->parse("")->get();
+    $this->is($res2->fst, "", "digit does not parse empty strings");
+    $this->is($res2->snd, array(), "digit does not parse empty strings");
+    $res3 = $d->parse("79abc")->get();
+    $this->is($res3->fst, "abc", "list of digits stopped at the first letter");
+    $this->is($res3->snd, array("7", "9"), "list of digits selected the digit chain");
+  }
 }
 
 $test = new ParserTest();
@@ -124,3 +140,4 @@ $test->manyTest();
 $test->listTest();
 $test->satisfyTest();
 $test->isTest();
+$test->satisfiersTest();
