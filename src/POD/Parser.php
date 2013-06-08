@@ -91,4 +91,16 @@
       }
     });
   }
+
+  //Choice function: tries the first parser, and if unsuccessful, tries the second
+  function C($p1, $p2) {
+    return new Parser(function($s) use($p1, $p2){
+      $r = $p1->parse($s);
+      if($r->isEmpty()){
+        return $p2->parse($s);
+      } else {
+        return $r;
+      }
+    });
+  }
 ?>

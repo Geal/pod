@@ -15,15 +15,24 @@ class ParserTest extends lime_test {
     $this->is($r->snd, 1,     "The value parser adds a value");
   }
 
-  public function stringTest() {
+  public function characterTest() {
     $c = \POD\Character();
     $res = $c->parse("abc")->get();
     $this->is($res->fst, "bc", "Character parser consumes one character");
     $this->is($res->snd, "a",  "Character parser returns one character");
     $this->is((string)$c->parse(""), "Nothing", "Character parser returns Nothing on empty string");
   }
+
+  public function choiceTest() {
+    $p = \POD\C(\POD\Character(), \POD\Value(1));
+    $res1 = $p->parse("abc")->get();
+    $this->is($res1->snd, "a", "Choice parser works for first parser");
+    $res2 = $p->parse("")->get();
+    $this->is($res2->snd, 1, "Choice parser works for second parser");
+  }
 }
 
 $test = new ParserTest();
 $test->basicTest();
-$test->stringTest();
+$test->characterTest();
+$test->choiceTest();
