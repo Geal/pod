@@ -11,6 +11,6 @@ class Preprocessor {
 }
 
 function openTag() {
-  return Ignore(spaces(), Seq(is('<'), is('?')));
+  return Ignore(spaces(), replace(Seq(is('<'), is('?'), space()), "<?php\n"));
   //return is('<')->next(is('?'));
 }
