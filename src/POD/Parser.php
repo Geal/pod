@@ -46,6 +46,10 @@
       $fun = $this->f;
       return $fun($str);
     }
+
+    public function next($n) {
+      return Seq($this, $n);
+    }
   }
 
   class ParserMonad extends BaseMonad {
