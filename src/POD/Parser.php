@@ -61,13 +61,15 @@
      * then applies $f
      */
     public function bind($f, $ma) {
-      return new Parser(function($s){
+      return new Parser(function($s) use($ma, $f){
         $p = $ma->parse($s);
-        $res = __t($p)->map(function($x){
-          $c = $f($x->fst);
-          return $c->parse($x->snd);
-        });
-        return $res;
+        if($p->isEmpty()){
+          return new Maybe(null);
+        } else {
+          $r = $p->get();
+          $c = $f($r->snd);
+          return $c->parse($r->fst);
+        }
       });
     }
   }
@@ -105,5 +107,13 @@
         return $r;
       }
     });
+  }
+
+  function Ignore($p1, $p2) {
+    $p = __t($p1);
+    $res = $p->bind(function($x) use($p2){
+      return $p2;
+    });
+    return $res();
   }
 ?>
