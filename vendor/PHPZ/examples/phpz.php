@@ -56,3 +56,8 @@ $ds = __t($as)->map(function($x) { return strlen($x); })
               ->bind(function($x) { return array($x - 5, $x, $x + 5) ; });
 
 print_r($ds());
+
+$n = new Maybe(null);
+print $n;
+$d = __t($n)->map(function($x) { return strlen($x);});
+print "trying to map over nothing: ".$d;
