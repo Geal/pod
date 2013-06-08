@@ -82,4 +82,15 @@
   function Value($a){
     return new Parser(function($s) use($a){return new \PHPZ\Maybe(new Tuple($s, $a));});
   };
+
+  // Parser taking the first character a-of the stream
+  function Character(){
+    return new Parser(function($s){
+      if (empty($s)){
+        return new \PHPZ\Maybe(null);
+      }else {
+        return new \PHPZ\Maybe(new Tuple(substr($s, 1), $s[0]));
+      }
+    });
+  }
 ?>
