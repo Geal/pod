@@ -5,6 +5,7 @@
 
   use \PHPZ\Maybe;
   use \PHPZ\Monad\BaseMonad;
+  use \PHPZ\Functor\BaseFunctor;
   use \PHPZ\TypeClass\TypeClassWrapper;
   use \PHPZ\TypeClass\TypeClassRepo;
   \PHPZ\PHPZ::init();
@@ -74,7 +75,26 @@
     }
   }
 
+  class ParserFunctor extends BaseFunctor {
+    public function getType() {
+      return "POD\\Parser";
+    }
+
+    public function map($callable, $parser) {
+      return new Parser(function($s) use($callable, $parser){
+        $r = $parser->parse($s);
+        if($r->isEmpty()){
+          return new Maybe(null);
+        } else {
+          $t = $r->get();
+          return new Maybe(new Tuple($t->fst, $callable($t->snd)));
+        }
+      });
+    }
+  }
+
   TypeClassRepo::registerInstance(new ParserMonad());
+  TypeClassRepo::registerInstance(new ParserFunctor());
 
   // Parser that will always fail
   function Failed(){

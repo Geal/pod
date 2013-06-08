@@ -53,6 +53,15 @@ class ParserTest extends lime_test {
     $res1 = $r->get();
     $this->is($res1->snd, "b", "Ignores the first parser's result");
   }
+
+  public function mapTest() {
+    $p = \POD\__t(\POD\Character());
+    $p2 = $p->map(function($x){return strtoupper($x);});
+    $res = $p2()->parse("abc")->get();
+    $this->is($res->fst, "bc", "map does not affect the remaining string");
+    $this->is($res->snd, "A", "map affects the result");
+    $this->is((string)$p2()->parse(""), "Nothing", "map does not run on Nothing");
+  }
 }
 
 $test = new ParserTest();
@@ -61,3 +70,4 @@ $test->characterTest();
 $test->choiceTest();
 $test->bindTest();
 $test->ignoreTest();
+$test->mapTest();
