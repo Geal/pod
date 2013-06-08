@@ -30,9 +30,34 @@ class ParserTest extends lime_test {
     $res2 = $p->parse("")->get();
     $this->is($res2->snd, 1, "Choice parser works for second parser");
   }
+
+  public function bindTest() {
+    $p1 = \POD\__t(\POD\Character());
+    $p2 = $p1->bind(function($c){
+      if( ctype_upper($c)){
+        return \POD\Value(1);
+      }else{
+        return \POD\Failed();
+      }
+    });
+    $p3 = $p2();
+    $this->is((string)$p3->parse(""), "Nothing", "bindtest correctly ignores empty string");
+    $this->is((string)$p3->parse("abc"), "Nothing", "fails if first char is lowercase");
+    $res = $p3->parse("Abc");
+    $this->is($p3->parse("Abc")->get()->snd, 1, "gives 1 if first char is uppercase");
+  }
+
+  public function ignoreTest() {
+    $p = \POD\Ignore(\POD\Character(), \POD\Character());
+    $r = $p->parse("abc");
+    $res1 = $r->get();
+    $this->is($res1->snd, "b", "Ignores the first parser's result");
+  }
 }
 
 $test = new ParserTest();
 $test->basicTest();
 $test->characterTest();
 $test->choiceTest();
+$test->bindTest();
+$test->ignoreTest();
