@@ -24,10 +24,14 @@
       $this->fst = $first;
       $this->snd = $second;
     }
+
+    public function __toString() {
+      return "( ".$this->fst." | ".$this->snd." )";
+    }
   }
 
   class Parser {
-    private $f = null;
+    protected $f = null;
 
     /* $fun must be a function taking a string as argument
      * and returning a Maybe(String, result)
