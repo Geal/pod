@@ -72,12 +72,14 @@
   }
 
   // Parser that will always fail
-  const failed = new Parser(function($s){return Maybe(null));
+  class Failed extends Parser {
+    public function __construct(){
+      $this->f = function($s){return new Maybe(null);};
+    }
+  }
 
   // Parser that consumes no input and produces a value
-  function value($a){
-    return new Parser(function($s){return Maybe(new Tuple($s, $a))});
+  function Value($a){
+    return new Parser(function($s) use($a){return new \PHPZ\Maybe(new Tuple($s, $a));});
   };
-  print "hello world\n";
-
 ?>
