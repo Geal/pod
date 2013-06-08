@@ -136,4 +136,22 @@
     });
     return $res();
   }
+
+  // transforms a [Parser a] in Parser [a]
+  function Sequence($arr) {
+    if(count($arr) === 0) {
+      return Value(array());
+    } else {
+      $first = __t(array_shift($arr));
+      $res = $first->bind(function($s) use($arr) {
+        $seq = __t(Sequence($arr));
+        $res2 = $seq->map(function($x) use($s){
+          array_unshift($x, $s);
+          return $x;
+        });
+        return $res2();
+      });
+      return $res();
+    }
+  }
 ?>

@@ -62,6 +62,18 @@ class ParserTest extends lime_test {
     $this->is($res->snd, "A", "map affects the result");
     $this->is((string)$p2()->parse(""), "Nothing", "map does not run on Nothing");
   }
+
+  public function sequenceTest() {
+    $p = \POD\Sequence(array(\POD\Character(), \POD\Value("x"), \POD\Character()));
+    $this->is((string)$p->parse(""), "Nothing", "A sequence ignores the empty string");
+    $this->is((string)$p->parse("a"), "Nothing", "A sequence ignores a string too small");
+    $res1 = $p->parse("ab")->get();
+    $this->is($res1->fst, "", "this sequence eats two characters");
+    $this->is($res1->snd, array("a", "x", "b"), "this sequence eats two characters and intersperses a 'x'");
+    $res2 = $p->parse("abc")->get();
+    $this->is($res2->fst, "c", "this sequence eats two characters, no more");
+    $this->is($res2->snd, array("a", "x", "b"), "this sequence eats two characters and intersperses a 'x'");
+  }
 }
 
 $test = new ParserTest();
@@ -71,3 +83,4 @@ $test->choiceTest();
 $test->bindTest();
 $test->ignoreTest();
 $test->mapTest();
+$test->sequenceTest();
