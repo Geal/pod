@@ -167,6 +167,12 @@
     return $p2();
   }
 
+  //Replaces the result of a parser if it matches
+  function replace($p, $str){
+    $p2 = __t($p)->map(function($x) use($str){return $str;});
+    return $p2();
+  }
+
   //Creates a parser sequence applying $nb times
   function thisMany($nb, $p) {
     $res = array();
