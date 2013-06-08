@@ -66,6 +66,13 @@
     }
   }
 
+  // Parser that will always fail
+  const failed = new Parser(function($s){return Maybe(null));
+
+  // Parser that consumes no input and produces a value
+  function value($a){
+    return new Parser(function($s){return Maybe(new Tuple($s, $a))});
+  };
   print "hello world\n";
 
 ?>
