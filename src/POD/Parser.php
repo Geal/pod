@@ -154,4 +154,12 @@
       return $res();
     }
   }
+
+  function thisMany($nb, $p) {
+    $res = array();
+    for($i = 0; $i < $nb; $i++) {
+      array_push($res, $p);
+    }
+    return Sequence($res);
+  }
 ?>
