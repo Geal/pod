@@ -1,7 +1,7 @@
 <?php
   namespace POD;
 
-  include dirname(__DIR__)."/vendor/autoload.php";
+  include dirname(__DIR__)."/../vendor/autoload.php";
 
   use \PHPZ\Maybe;
   use \PHPZ\Monad\BaseMonad;
