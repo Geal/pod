@@ -72,10 +72,8 @@
   }
 
   // Parser that will always fail
-  class Failed extends Parser {
-    public function __construct(){
-      $this->f = function($s){return new Maybe(null);};
-    }
+  function Failed(){
+    return new Parser(function($s){return new Maybe(null);});
   }
 
   // Parser that consumes no input and produces a value
