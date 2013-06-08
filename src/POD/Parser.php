@@ -155,6 +155,14 @@
     }
   }
 
+  //Same as sequence, but joinq the result in a string
+  function Seq() {
+    $arr = func_get_args();
+    $p = Sequence($arr);
+    $p2 = __t($p)->map(function($arr){return implode($arr);});
+    return $p2();
+  }
+
   //Creates a parser sequence applying $nb times
   function thisMany($nb, $p) {
     $res = array();
