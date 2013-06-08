@@ -14,3 +14,7 @@ function openTag() {
   return Ignore(spaces(), replace(Seq(is('<'), is('?'), space()), "<?php\n"));
   //return is('<')->next(is('?'));
 }
+
+function endTag() {
+  return replace(Seq(is('?'), is('>')), "\n?>");
+}
