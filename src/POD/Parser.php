@@ -155,11 +155,31 @@
     }
   }
 
+  //Creates a parser sequence applying $nb times
   function thisMany($nb, $p) {
     $res = array();
     for($i = 0; $i < $nb; $i++) {
       array_push($res, $p);
     }
     return Sequence($res);
+  }
+
+  //creates a parser sequence applying one or many times
+  function list1($p) {
+    return C(many1($p), Value(array()));
+  }
+
+  // creates a parser sequence applying itself one or many times
+  function many1($p) {
+    $p1 = __t($p);
+    $res = $p1->bind(function($s) use($p){
+      $l = __t(list1($p));
+      $res2 = $l->map(function($x) use($s){
+        $res3 = array_unshift($x, $s);
+        return $x;
+      });
+      return $res2();
+    });
+    return $res();
   }
 ?>

@@ -74,6 +74,24 @@ class ParserTest extends lime_test {
     $this->is($res2->fst, "c", "this sequence eats two characters, no more");
     $this->is($res2->snd, array("a", "x", "b"), "this sequence eats two characters and intersperses a 'x'");
   }
+
+  public function manyTest() {
+    $p = \POD\many1(\POD\Character());
+    $this->is((string)$p->parse(""), "Nothing", "many1 returns Nothing on empty string");
+    $res = $p->parse("abc")->get();
+    $this->is($res->fst, array(), "many1 eats all the characters");
+    $this->is($res->snd, array("a", "b", "c"), "many1 returns all the characters");
+  }
+
+  public function listTest() {
+    $p = \POD\list1(\POD\Character());
+    $res = $p->parse("")->get();
+    $this->is($res->fst, "", "list1 returns a empty Just on empty strings");
+    $this->is($res->snd, array(), "list1 returns an empty Just on empty strings");
+    $res = $p->parse("abc")->get();
+    $this->is($res->fst, array(), "list1 eats all the characters");
+    $this->is($res->snd, array("a", "b", "c"), "list11 returns all the characters");
+  }
 }
 
 $test = new ParserTest();
@@ -84,3 +102,5 @@ $test->bindTest();
 $test->ignoreTest();
 $test->mapTest();
 $test->sequenceTest();
+$test->manyTest();
+$test->listTest();
