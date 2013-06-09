@@ -10,9 +10,14 @@ class Preprocessor {
 
 }
 
+function all() {
+  return Seq(openTag(), omnomnom());
+}
+
+function omnomnom() { return lists(C(endTag(), Character()));};
+
 function openTag() {
   return Ignore(spaces(), replace(Seq(is('<'), is('?'), space()), "<?php\n"));
-  //return is('<')->next(is('?'));
 }
 
 function endTag() {
