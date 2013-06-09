@@ -76,21 +76,21 @@ class ParserTest extends lime_test {
   }
 
   public function manyTest() {
-    $p = \POD\many1(\POD\Character());
+    $p = \POD\manys(\POD\Character());
     $this->is((string)$p->parse(""), "Nothing", "many1 returns Nothing on empty string");
     $res = $p->parse("abc")->get();
-    $this->is($res->fst, array(), "many1 eats all the characters");
-    $this->is($res->snd, array("a", "b", "c"), "many1 returns all the characters");
+    $this->is($res->fst, "", "many1 eats all the characters");
+    $this->is($res->snd, "abc", "many1 returns all the characters");
   }
 
   public function listTest() {
-    $p = \POD\list1(\POD\Character());
+    $p = \POD\lists(\POD\Character());
     $res = $p->parse("")->get();
     $this->is($res->fst, "", "list1 returns a empty Just on empty strings");
-    $this->is($res->snd, array(), "list1 returns an empty Just on empty strings");
+    $this->is($res->snd, "", "list1 returns an empty Just on empty strings");
     $res = $p->parse("abc")->get();
-    $this->is($res->fst, array(), "list1 eats all the characters");
-    $this->is($res->snd, array("a", "b", "c"), "list11 returns all the characters");
+    $this->is($res->fst, "", "list1 eats all the characters");
+    $this->is($res->snd, "abc", "list11 returns all the characters");
   }
 
   public function satisfyTest() {

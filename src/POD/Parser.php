@@ -162,11 +162,14 @@
   //Same as sequence, but joinq the result in a string
   function Seq() {
     $arr = func_get_args();
-    $p = Sequence($arr);
+    return s(Sequence($arr));
+  }
+
+  //transform array results in strings
+  function s($p) {
     $p2 = __t($p)->map(function($arr){return implode($arr);});
     return $p2();
   }
-
   //Replaces the result of a parser if it matches
   function replace($p, $str){
     $p2 = __t($p)->map(function($x) use($str){return $str;});
@@ -199,6 +202,14 @@
       return $res2();
     });
     return $res();
+  }
+
+  function lists($p){
+    return s(list1($p));
+  }
+
+  function manys($p){
+    return s(many1($p));
   }
 
   //creates a parser verifying a condition on a character
