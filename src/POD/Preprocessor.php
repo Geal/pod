@@ -11,13 +11,19 @@ class Preprocessor {
 }
 
 function all() {
+  return lists(C(wrappedPHP(), Character()));
+}
+
+function wrappedPHP() {
   return Seq(openTag(), omnomnom());
 }
 
-function omnomnom() { return lists(C(endTag(), Character()));};
+function omnomnom() { return lists(C(endTag(), expression()));}
+
+function expression() { return C(space(), alphanum()); }
 
 function openTag() {
-  return Ignore(spaces(), replace(Seq(is('<'), is('?'), space()), "<?php\n"));
+  return replace(Seq(is('<'), is('?'), space()), "<?php\n");
 }
 
 function endTag() {
