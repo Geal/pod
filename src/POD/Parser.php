@@ -231,6 +231,10 @@
     return Satisfy(function($c) use($char){return $c === $char;});
   }
 
+  function isNot($char) {
+    return Satisfy(function($c) use($char){return $c !== $char;});
+  }
+
   function digit()     { return Satisfy(is_numeric);};
   function space()     { return Satisfy(ctype_space);};
   function spaces()    { return many1(space());};

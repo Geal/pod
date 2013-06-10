@@ -29,3 +29,11 @@ function openTag() {
 function endTag() {
   return replace(Seq(is('?'), is('>')), "\n?>");
 }
+
+function str() {
+  return Seq(is('"'), strContent(), is('"'));
+}
+
+function strContent() {
+  return lists(C(Seq(is('\\'), is('"')), isNot('"')));
+}
