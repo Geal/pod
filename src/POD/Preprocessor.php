@@ -37,3 +37,7 @@ function str() {
 function strContent() {
   return lists(C(Seq(is('\\'), is('"')), isNot('"')));
 }
+
+function statement() {
+  return Seq(lists(isNotIn(array("\r", "\n"))), replace(eol(), ";\n"));
+}

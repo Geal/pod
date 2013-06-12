@@ -235,6 +235,14 @@
     return Satisfy(function($c) use($char){return $c !== $char;});
   }
 
+  function isIn($arr) {
+    return Satisfy(function($c) use($arr){return in_array($c, $arr);});
+  }
+
+  function isNotIn($arr) {
+    return Satisfy(function($c) use($arr){return !in_array($c, $arr);});
+  }
+
   function digit()     { return Satisfy(is_numeric);};
   function space()     { return Satisfy(ctype_space);};
   function spaces()    { return many1(space());};
@@ -242,4 +250,5 @@
   function lower()     { return Satisfy(ctype_lower);};
   function alpha()     { return Satisfy(ctype_alpha);};
   function alphanum()  { return Satisfy(ctype_alnum);};
+  function eol()       { return C(is("\n"), Seq(is("\r"), is("\n")));};
 ?>

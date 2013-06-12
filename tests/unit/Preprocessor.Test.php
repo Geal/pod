@@ -26,7 +26,9 @@ class ParserTest extends lime_test {
     //print_r($res3);
     //print "res4: ";
     //print_r($res4);
+  }
 
+  public function stringTest() {
     $s = \POD\str();
     $res5 = $s->parse("abc\"");
     $this->is((string)$res5, "Nothing", "a string has an opening double quote");
@@ -39,8 +41,17 @@ class ParserTest extends lime_test {
     $res8 = $s->parse($str)->get();
     $this->is($res8->snd, $str, "full string parsing");
   }
+
+  public function expressionTest() {
+    $s = \POD\statement();
+    $res = $s->parse("abc \n ab")->get();
+    $this->is($res->fst, " ab", "a statement on every line");
+    $this->is($res->snd, "abc ;\n", "a statement on every line");
+  }
 }
 
 $test = new ParserTest();
 $test->preprocessorTest();
+$test->stringTest();
+$test->expressionTest();
 ?>
