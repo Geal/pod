@@ -48,7 +48,7 @@ function variable() {
 }
 
 function expression() {
-  return Seq(rspaces(),C(variable(), str(), number()), rspaces());
+  return Seq(rspaces(),C(variable(), str()), rspaces());
 }
 
 function leftval() {
