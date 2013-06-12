@@ -20,8 +20,6 @@ function wrappedPHP() {
 
 function omnomnom() { return lists(C(endTag(), expression()));}
 
-function expression() { return C(space(), alphanum()); }
-
 function openTag() {
   return replace(Seq(is('<'), is('?'), space()), "<?php\n");
 }
@@ -44,5 +42,20 @@ function statement() {
 
 //a variable begins with a letter
 function variable() {
-  return Seq(alpha(), lists(C(alphanum(), is("_"))));
+  $p = __t(Seq(alpha(), lists(C(alphanum(), is("_")))));
+  $p2 = $p->map(function($s){return '$'.$s;});
+  return $p2();
+}
+
+function expression() {
+  return Seq(rspaces(),C(variable(), str(), number()), rspaces());
+}
+
+function leftval() {
+  return variable();
+}
+
+function assignment() {
+  return Seq(rspaces(), leftval(), rspaces(), is("="), expression());
+  //return Seq(rspaces(), leftval(), rspaces(), is("="), rspaces(), expression());
 }

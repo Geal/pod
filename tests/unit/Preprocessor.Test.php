@@ -60,8 +60,16 @@ class ParserTest extends lime_test {
     $this->is($res->snd, "abc ;\n", "a statement on every line");
 
     $v = \POD\variable();
-    $this->verif($v, "ab1_c", "", "ab1_c", "a variable can contains letters, numbers and underscores");
+    $this->verif($v, "ab1_c", "", '$ab1_c', "a variable can contains letters, numbers and underscores");
     $this->fail_verif($v, "1abc", "a variable can contains letters, numbers and underscores");
+  }
+
+  public function assignmentTest() {
+    $a = \POD\assignment();
+    $this->verif($a, "abc=aaa", "", '$abc=$aaa', "parse assignments of variables");
+    $this->verif($a, 'abc="aaa"', "", '$abc="aaa"', "parse assignments of strings");
+    $this->verif($a, ' abc = "x"', "", ' $abc = "x"', "parse assignments with leading spaces");
+    $this->verif($a, " abc = \"x\"\n", "\n", ' $abc = "x"', "parse assignments without eol");
   }
 }
 
@@ -69,4 +77,5 @@ $test = new ParserTest();
 $test->preprocessorTest();
 $test->stringTest();
 $test->expressionTest();
+$test->assignmentTest();
 ?>
