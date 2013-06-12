@@ -41,3 +41,8 @@ function strContent() {
 function statement() {
   return Seq(lists(isNotIn(array("\r", "\n"))), replace(eol(), ";\n"));
 }
+
+//a variable begins with a letter
+function variable() {
+  return Seq(alpha(), lists(C(alphanum(), is("_"))));
+}

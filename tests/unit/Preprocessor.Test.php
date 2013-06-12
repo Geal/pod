@@ -6,6 +6,17 @@
 
 class ParserTest extends lime_test {
 
+  function verif($parser, $str, $fst, $snd, $msg) {
+    $res = $parser->parse($str)->get();
+    $this->is($res->fst, $fst, $msg);
+    $this->is($res->snd, $snd, $msg);
+  }
+
+  function fail_verif($parser, $str, $msg) {
+    $res = $parser->parse($str);
+    $this->is((string)$res, "Nothing", $msg);
+  }
+
   public function preprocessorTest(){
     $X = new \POD\Preprocessor();
     $o = \POD\openTag();
@@ -47,6 +58,10 @@ class ParserTest extends lime_test {
     $res = $s->parse("abc \n ab")->get();
     $this->is($res->fst, " ab", "a statement on every line");
     $this->is($res->snd, "abc ;\n", "a statement on every line");
+
+    $v = \POD\variable();
+    $this->verif($v, "ab1_c", "", "ab1_c", "a variable can contains letters, numbers and underscores");
+    $this->fail_verif($v, "1abc", "a variable can contains letters, numbers and underscores");
   }
 }
 
