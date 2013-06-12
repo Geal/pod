@@ -129,7 +129,7 @@ class ParserTest extends lime_test {
     $s = \POD\spaces();
     $res4 = $s->parse(" \t \n \r a\n")->get();
     $this->is($res4->fst, "a\n", "spaces stop at the first non space character");
-    $this->is(implode($res4->snd), " \t \n \r ", "spaces matches space, tabs and carriage returns");
+    $this->is($res4->snd, " \t \n \r ", "spaces matches space, tabs and carriage returns");
 
     $eol = \POD\eol();
     $res5 = $eol->parse("\n")->get();
