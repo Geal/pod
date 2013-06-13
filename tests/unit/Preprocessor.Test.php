@@ -68,10 +68,10 @@ class ParserTest extends lime_test {
 
   public function functionTest() {
     $f = \POD\fun();
-    $this->verif($f, 'a ()', '', 'a ()', 'parse functions');
-    $this->verif($f, 'a (b)', '', 'a ($b)', 'parse functions with one parameter');
-    $this->verif($f, 'a (1, b)', '', 'a (1, $b)', 'parse functions with multiple parameters');
-    $this->verif($f, 'a (b(c))', '', 'a (b($c))', 'parse nested function calls');
+    $this->verif($f, 'a()', '', 'a()', 'parse functions');
+    $this->verif($f, 'a(b)', '', 'a($b)', 'parse functions with one parameter');
+    $this->verif($f, 'a(1, b)', '', 'a(1, $b)', 'parse functions with multiple parameters');
+    $this->verif($f, 'a(b())', '', 'a(b())', 'parse nested function calls');
   }
 
   public function expressionTest() {
@@ -83,6 +83,7 @@ class ParserTest extends lime_test {
     $v = \POD\variable();
     $this->verif($v, "ab1_c", "", '$ab1_c', "a variable can contains letters, numbers and underscores");
     $this->fail_verif($v, "1abc", "a variable can contains letters, numbers and underscores");
+    $this->fail_verif($v, "ab(", "a variable followed by '(' is a function, not a variable");
 
     $r = \POD\raw_expression();
     $this->verif($r, 'abc',   "", '$abc',  "raw exp can parse variables");
