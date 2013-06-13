@@ -185,7 +185,7 @@
     return Sequence($res);
   }
 
-  //creates a parser sequence applying one or many times
+  //creates a parser sequence applying zero or many times
   function lists($p){
     return C(manys($p), Value(""));
   }
