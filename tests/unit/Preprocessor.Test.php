@@ -78,6 +78,7 @@ class ParserTest extends lime_test {
 
     $r = \POD\raw_expression();
     $this->verif($r, 'abc',   "", '$abc',  "raw exp can parse variables");
+    $this->verif($r, '$abc',   "", '$$abc',  "raw exp can parse variables");
     $this->verif($r, '"abc"', "", '"abc"', "raw exp can parse strings");
     $this->verif($r, '100',   "", '100',   "raw exp can parse numbers");
 

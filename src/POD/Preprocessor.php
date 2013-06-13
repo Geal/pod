@@ -46,7 +46,8 @@ function statement() {
 
 //a variable begins with a letter
 function variable() {
-  $p = __t(Seq(alpha(), lists(C(alphanum(), is("_")))));
+  $parser = C(Seq(is('$'), alpha(), lists(C(alphanum(), is("_")))), Seq(alpha(), lists(C(alphanum(), is("_")))));
+  $p = __t($parser);
   $p2 = $p->map(function($s){return '$'.$s;});
   return $p2();
 }
