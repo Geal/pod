@@ -53,6 +53,12 @@ class ParserTest extends lime_test {
     $this->is($res8->snd, $str, "full string parsing");
   }
 
+  public function numberTest() {
+    $n = \POD\number();
+    $this->verif($n, "4242", "", "4242", "parse numbers");
+    $this->verif($n, "100", "", "100", "parse numbers");
+  }
+
   public function expressionTest() {
     $s = \POD\statement();
     $res = $s->parse("abc \n ab")->get();
@@ -76,6 +82,7 @@ class ParserTest extends lime_test {
 $test = new ParserTest();
 $test->preprocessorTest();
 $test->stringTest();
+$test->numberTest();
 $test->expressionTest();
 $test->assignmentTest();
 ?>

@@ -28,6 +28,10 @@ function endTag() {
   return replace(Seq(is('?'), is('>')), "\n?>");
 }
 
+function number() {
+  return lists(digit());
+}
+
 function str() {
   return Seq(is('"'), strContent(), is('"'));
 }
