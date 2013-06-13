@@ -147,6 +147,14 @@ TypeClassRepo::registerInstance(new LazyParserFunctor());
     return new Parser(function($s) use($a){return new Maybe(new Tuple($s, $a));});
   };
 
+  function logp($p, $msg) {
+    return new Parser(function($s) use($p, $msg) {
+      $res = $p->parse($s);
+      print "$msg: $s -> $res\n";
+      return $res;
+    });
+  }
+
   // Parser taking the first character a-of the stream
   function Character(){
     return new Parser(function($s){
