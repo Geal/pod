@@ -66,6 +66,14 @@ class ParserTest extends lime_test {
     $this->verif($o, 'a+1', '', '$a+1', 'operation parses variable additions');
   }
 
+  public function functionTest() {
+    $f = \POD\fun();
+    $this->verif($f, 'a ()', '', 'a ()', 'parse functions');
+    $this->verif($f, 'a (b)', '', 'a ($b)', 'parse functions with one parameter');
+    $this->verif($f, 'a (1, b)', '', 'a (1, $b)', 'parse functions with multiple parameters');
+    $this->verif($f, 'a (b(c))', '', 'a (b($c))', 'parse nested function calls');
+  }
+
   public function expressionTest() {
     $s = \POD\statement();
     $res = $s->parse("abc \n ab")->get();
@@ -109,4 +117,6 @@ $test->numberTest();
 $test->operationTest();
 $test->expressionTest();
 $test->assignmentTest();
+$test->functionTest();
+
 ?>

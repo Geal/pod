@@ -60,6 +60,39 @@ function operator() {
   return C(is("-"), C(is("/"), C(is("+"), is("*"))));
 }
 
+function parameter_list() {
+  return Seq(
+          raw_expression(),
+          rspaces(),
+          lists(
+            C(
+              is(')'),
+              Seq(
+                rspaces(),
+                is(','),
+                rspaces(),
+                raw_expression()
+              )
+            )
+          )
+        );
+}
+
+function fun_parameter() {
+  return C(
+          is(')'),
+          C(
+            parameter_list(),
+            Value("")
+          )
+        );
+}
+
+function fun() {
+  return Seq(alpha(), lists(C(alphanum(), is("_"))), rspaces(), is('('), rspaces(), fun_parameter());
+
+}
+
 function raw_expression() {
   return C(variable(), C(str(), number()));
 }
