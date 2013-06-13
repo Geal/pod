@@ -2,10 +2,11 @@
 require dirname(__DIR__)."/autoload.php";
 require dirname(__DIR__)."/lime.php";
 
+//load the class
+$X = new \POD\Parser();
 
 class ParserTest extends lime_test {
   public function basicTest(){
-    $X = new \POD\Parser();
     $fa = \POD\Failed();
     $this->is((string)$fa->parse("abc"), 'Nothing', 'The failed parser always returns Nothing');
     $p = \POD\Value(1);
@@ -86,11 +87,20 @@ class ParserTest extends lime_test {
   public function listTest() {
     $p = \POD\lists(\POD\Character());
     $res = $p->parse("")->get();
-    $this->is($res->fst, "", "list1 returns a empty Just on empty strings");
-    $this->is($res->snd, "", "list1 returns an empty Just on empty strings");
+    $this->is($res->fst, "", "list returns a empty Just on empty strings");
+    $this->is($res->snd, "", "list returns an empty Just on empty strings");
     $res = $p->parse("abc")->get();
-    $this->is($res->fst, "", "list1 eats all the characters");
-    $this->is($res->snd, "abc", "list11 returns all the characters");
+    $this->is($res->fst, "", "list abc eats all the characters");
+    $this->is($res->snd, "abc", "list abc returns all the characters");
+    $res = $p->parse("100")->get();
+    $this->is($res->fst, "", "list 100 eats all the numbers");
+    $this->is($res->snd, "100", "list 100 returns all the numbers");
+    $res = $p->parse("101")->get();
+    $this->is($res->fst, "", "list 101 eats all the numbers");
+    $this->is($res->snd, "101", "list 101 returns all the numbers");
+    $res = $p->parse("1a")->get();
+    $this->is($res->fst, "", "list1 eats all the numbers");
+    $this->is($res->snd, "1a", "list11 returns all the numbers");
   }
 
   public function satisfyTest() {
@@ -118,13 +128,13 @@ class ParserTest extends lime_test {
     $res = $u->parse("A")->get();
     $this->is($res->snd, "A", "correctly parsed uppercase letter");
 
-    $d = \POD\list1(\POD\digit());
+    $d = \POD\lists(\POD\digit());
     $res2 = $d->parse("")->get();
     $this->is($res2->fst, "", "digit does not parse empty strings");
-    $this->is($res2->snd, array(), "digit does not parse empty strings");
+    $this->is($res2->snd, "", "digit does not parse empty strings");
     $res3 = $d->parse("79abc")->get();
     $this->is($res3->fst, "abc", "list of digits stopped at the first letter");
-    $this->is($res3->snd, array("7", "9"), "list of digits selected the digit chain");
+    $this->is($res3->snd, "79", "list of digits selected the digit chain");
 
     $s = \POD\spaces();
     $res4 = $s->parse(" \t \n \r a\n")->get();

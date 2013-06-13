@@ -186,30 +186,22 @@
   }
 
   //creates a parser sequence applying one or many times
-  function list1($p) {
-    return C(many1($p), Value(array()));
+  function lists($p){
+    return C(manys($p), Value(""));
   }
 
   // creates a parser sequence applying itself one or many times
-  function many1($p) {
+  function manys($p) {
     $p1 = __t($p);
     $res = $p1->bind(function($s) use($p){
-      $l = __t(list1($p));
+      $l = __t(C(manys($p), Value("")));
       $res2 = $l->map(function($x) use($s){
-        $res3 = array_unshift($x, $s);
-        return $x;
+        $res3 = "$s$x";
+        return $res3;
       });
       return $res2();
     });
     return $res();
-  }
-
-  function lists($p){
-    return s(list1($p));
-  }
-
-  function manys($p){
-    return s(many1($p));
   }
 
   //creates a parser verifying a condition on a character
