@@ -51,11 +51,20 @@ function variable() {
   return $p2();
 }
 
+function operation() {
+  return Seq(C(variable(),number()), operator(), C(variable(),number()));
+}
+
+function operator() {
+  return C(is("-"), C(is("/"), C(is("+"), is("*"))));
+}
+
 function raw_expression() {
   return C(variable(), C(str(), number()));
 }
+
 function expression() {
-  return Seq(rspaces(),raw_expression(), rspaces());
+  return Seq(rspaces(), raw_expression(), rspaces(), lists(Seq(operator(), rspaces(), raw_expression(), rspaces())));
 }
 
 function leftval() {

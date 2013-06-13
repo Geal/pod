@@ -60,6 +60,12 @@ class ParserTest extends lime_test {
     $this->fail_verif($n, "a", "number does not parse letters");
   }
 
+  public function operationTest() {
+    $o = \POD\operation();
+    $this->verif($o, '1+1', '', '1+1', 'operation parses number additions');
+    $this->verif($o, 'a+1', '', '$a+1', 'operation parses variable additions');
+  }
+
   public function expressionTest() {
     $s = \POD\statement();
     $res = $s->parse("abc \n ab")->get();
@@ -74,6 +80,10 @@ class ParserTest extends lime_test {
     $this->verif($r, 'abc',   "", '$abc',  "raw exp can parse variables");
     $this->verif($r, '"abc"', "", '"abc"', "raw exp can parse strings");
     $this->verif($r, '100',   "", '100',   "raw exp can parse numbers");
+
+    $e = \POD\expression();
+    $this->verif($e, '100 + 200',   "", '100 + 200',   "expression can parse number operations");
+    $this->verif($e, '2 * abc',   "", '2 * $abc',   "expression can parse variable operations");
   }
 
   public function assignmentTest() {
@@ -83,13 +93,17 @@ class ParserTest extends lime_test {
     $this->verif($a, 'abc=100', "", '$abc=100', "parse assignments of strings");
     $this->verif($a, ' abc = "x"', "", ' $abc = "x"', "parse assignments with leading spaces");
     $this->verif($a, " abc = \"x\"\n", "\n", ' $abc = "x"', "parse assignments without eol");
+    $this->verif($a, 'abc=1/x', "", '$abc=1/$x', "parse assignments of operations");
+    $this->verif($a, 'abc=1+2 + x', "", '$abc=1+2 + $x', "parse assignments of operations");
   }
+
 }
 
 $test = new ParserTest();
 $test->preprocessorTest();
 $test->stringTest();
 $test->numberTest();
+$test->operationTest();
 $test->expressionTest();
 $test->assignmentTest();
 ?>
