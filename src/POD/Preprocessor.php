@@ -44,9 +44,13 @@ function statement() {
   return Seq(lists(isNotIn(array("\r", "\n"))), replace(eol(), ";\n"));
 }
 
+function raw_variable() {
+  return Seq(alpha(), lists(Seq(C(alphanum(), is("_")))), isNotC('('));
+}
+
 //a variable begins with a letter
 function variable() {
-  $parser = C(Seq(is('$'), alpha(), lists(C(alphanum(), is("_")))), Seq(alpha(), lists(C(alphanum(), is("_")))));
+  $parser = C(Seq(is('$'), raw_variable()), raw_variable());
   $p = __t($parser);
   $p2 = $p->map(function($s){return '$'.$s;});
   return $p2();
