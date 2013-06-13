@@ -113,7 +113,7 @@
   // Parser taking the first character a-of the stream
   function Character(){
     return new Parser(function($s){
-      if (empty($s)){
+      if (strlen($s) == 0){
         return new Maybe(null);
       }else {
         return new Maybe(new Tuple(substr($s, 1), $s[0]));
