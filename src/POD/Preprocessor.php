@@ -65,32 +65,13 @@ function operator() {
 }
 
 function parameter_list() {
-  return Seq(
-          lazy(function(){ return raw_expression();}),
-          rspaces(),
-          lists(
-            C(
-              is(')'),
-              Seq(
-                rspaces(),
-                is(','),
-                rspaces(),
-                lazy(function() {return raw_expression();})
-              )
-            )
-          )
-        );
-}
-
-function fun_parameter() {
   return C(
-          is(')'),
-          //lazy(function(){return parameter_list();})
-          C(
-            lazy(function(){return parameter_list();}),
-            Value("")
-          )
-        );
+           Seq(rspaces(), is(')')), // empty parameter list
+           Seq(lazy(function(){return expression();}), // first parameter
+               lists(Seq(is(','), lazy(function(){return expression();}))), // parameter list
+               is(')')
+             )
+         );
 }
 
 function func_name() {
@@ -98,12 +79,11 @@ function func_name() {
 }
 
 function fun() {
-  return Seq(func_name(), /*rspaces(), */is('('), rspaces(), fun_parameter());
-
+  return Seq(func_name(), rspaces(), is('('), rspaces(), parameter_list());
 }
 
 function raw_expression() {
-  return C(variable(), C(str(), number(), fun()));//lazy(function(){return fun();})));
+  return C(fun(), C(str(), C(number(), variable())));
 }
 
 function concatenable() {
