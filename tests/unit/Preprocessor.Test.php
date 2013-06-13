@@ -84,6 +84,8 @@ class ParserTest extends lime_test {
     $e = \POD\expression();
     $this->verif($e, '100 + 200',   "", '100 + 200',   "expression can parse number operations");
     $this->verif($e, '2 * abc',   "", '2 * $abc',   "expression can parse variable operations");
+    $this->verif($e, '"a" + "b"',   "", '"a" . "b"',   "expression can parse string concatenation");
+    $this->verif($e, 'a+ "b"',   "", '$a. "b"',   "expression can parse variable and string concatenation");
   }
 
   public function assignmentTest() {

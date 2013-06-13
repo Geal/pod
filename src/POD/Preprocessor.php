@@ -63,8 +63,21 @@ function raw_expression() {
   return C(variable(), C(str(), number()));
 }
 
+function concatenable() {
+  return C(str(), variable());
+}
+
+function operations_suffix() {
+  return lists(Seq(operator(), rspaces(), raw_expression(), rspaces()));
+}
+
+function concatenations_suffix() {
+  return manys(Seq(replace(is("+"), "."), rspaces(), concatenable(), rspaces()));
+}
+
 function expression() {
-  return Seq(rspaces(), raw_expression(), rspaces(), lists(Seq(operator(), rspaces(), raw_expression(), rspaces())));
+  //return Seq(rspaces(), raw_expression(), rspaces(), lists(Seq(operator(), rspaces(), raw_expression(), rspaces())));
+  return Seq(rspaces(), raw_expression(), rspaces(),C(concatenations_suffix(), operations_suffix()));
 }
 
 function leftval() {
