@@ -100,6 +100,43 @@
   TypeClassRepo::registerInstance(new ParserMonad());
   TypeClassRepo::registerInstance(new ParserFunctor());
 
+//emulate lazy initialization for a parser
+class LazyParser {
+  protected $f = null;
+  public function __construct($fun) {
+    //print "creating new lazy parser\n";// for function $fun\n";
+    $this->f = $fun;
+  }
+
+  public function parse($s) {
+    $func = $this->f;
+    //print "lazily creating new instance to parse '$s'\n";
+    $instance = $func();//call_user_func($this->f);
+    $res = $instance->parse($s);
+    //print "result: $res\n";
+    return $res;
+  }
+}
+
+function lazy($p) {
+  return new LazyParser($p);
+}
+
+
+class LazyParserMonad extends ParserMonad {
+  public function getType() {
+    return 'POD\LazyParser';
+  }
+}
+
+class LazyParserFunctor extends ParserFunctor {
+  public function getType() {
+    return 'POD\LazyParser';
+  }
+}
+TypeClassRepo::registerInstance(new LazyParserMonad());
+TypeClassRepo::registerInstance(new LazyParserFunctor());
+
   // Parser that will always fail
   function Failed(){
     return new Parser(function($s){return new Maybe(null);});
