@@ -57,6 +57,7 @@ class ParserTest extends lime_test {
     $n = \POD\number();
     $this->verif($n, "4242", "", "4242", "parse numbers");
     $this->verif($n, "100", "", "100", "parse numbers");
+    $this->fail_verif($n, "a", "number does not parse letters");
   }
 
   public function expressionTest() {
@@ -68,12 +69,18 @@ class ParserTest extends lime_test {
     $v = \POD\variable();
     $this->verif($v, "ab1_c", "", '$ab1_c', "a variable can contains letters, numbers and underscores");
     $this->fail_verif($v, "1abc", "a variable can contains letters, numbers and underscores");
+
+    $r = \POD\raw_expression();
+    $this->verif($r, 'abc',   "", '$abc',  "raw exp can parse variables");
+    $this->verif($r, '"abc"', "", '"abc"', "raw exp can parse strings");
+    $this->verif($r, '100',   "", '100',   "raw exp can parse numbers");
   }
 
   public function assignmentTest() {
     $a = \POD\assignment();
     $this->verif($a, "abc=aaa", "", '$abc=$aaa', "parse assignments of variables");
     $this->verif($a, 'abc="aaa"', "", '$abc="aaa"', "parse assignments of strings");
+    $this->verif($a, 'abc=100', "", '$abc=100', "parse assignments of strings");
     $this->verif($a, ' abc = "x"', "", ' $abc = "x"', "parse assignments with leading spaces");
     $this->verif($a, " abc = \"x\"\n", "\n", ' $abc = "x"', "parse assignments without eol");
   }

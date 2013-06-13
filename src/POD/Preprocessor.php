@@ -29,7 +29,7 @@ function endTag() {
 }
 
 function number() {
-  return lists(digit());
+  return manys(digit());
 }
 
 function str() {
@@ -51,8 +51,11 @@ function variable() {
   return $p2();
 }
 
+function raw_expression() {
+  return C(variable(), C(str(), number()));
+}
 function expression() {
-  return Seq(rspaces(),C(variable(), str()), rspaces());
+  return Seq(rspaces(),raw_expression(), rspaces());
 }
 
 function leftval() {
@@ -61,5 +64,4 @@ function leftval() {
 
 function assignment() {
   return Seq(rspaces(), leftval(), rspaces(), is("="), expression());
-  //return Seq(rspaces(), leftval(), rspaces(), is("="), rspaces(), expression());
 }
