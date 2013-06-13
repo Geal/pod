@@ -255,6 +255,28 @@ TypeClassRepo::registerInstance(new LazyParserFunctor());
     return $res();
   }
 
+  //creates a parser verifying a condition on a character but not consuming it
+  //$fun :: Char -> Bool
+  function SatisfyC($fun) {
+    return new Parser(
+      function($s) use($fun){
+        //print "parsing $s\n";
+        if(count($s) == 0) {
+          //print "empty string\n";
+          return new Maybe(null);
+        }
+        $c = $s[0];
+        if($fun($c)){
+          //print "satisfying condition on $c\n";
+          return new Maybe(new Tuple($s, ""));
+        } else {
+          //print "not satisfying condition on $c\n";
+          return new Maybe(null);
+        }
+      }
+    );
+  }
+
   //creates a parser verifying that the next character is a specific character
   function is($char) {
     return Satisfy(function($c) use($char){return $c === $char;});
@@ -262,6 +284,10 @@ TypeClassRepo::registerInstance(new LazyParserFunctor());
 
   function isNot($char) {
     return Satisfy(function($c) use($char){return $c !== $char;});
+  }
+
+  function isNotC($char) {
+    return SatisfyC(function($c) use($char){return $c !== $char;});
   }
 
   function isIn($arr) {
