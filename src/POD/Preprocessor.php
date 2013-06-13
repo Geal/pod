@@ -111,7 +111,7 @@ function concatenable() {
 }
 
 function operations_suffix() {
-  return lists(Seq(operator(), rspaces(), raw_expression(), rspaces()));
+  return lists(Seq(operator(), lazy(function(){return expression();})));
 }
 
 function concatenations_suffix() {
@@ -119,8 +119,10 @@ function concatenations_suffix() {
 }
 
 function expression() {
-  //return Seq(rspaces(), raw_expression(), rspaces(), lists(Seq(operator(), rspaces(), raw_expression(), rspaces())));
-  return Seq(rspaces(), raw_expression(), rspaces(),C(concatenations_suffix(), operations_suffix()));
+  return C(
+           Seq(rspaces(), concatenable(), rspaces(), concatenations_suffix()),
+           Seq(rspaces(), raw_expression(), rspaces(), operations_suffix())
+         );
 }
 
 function leftval() {
