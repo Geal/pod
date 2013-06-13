@@ -290,6 +290,10 @@ TypeClassRepo::registerInstance(new LazyParserFunctor());
     return Satisfy(function($c) use($char){return $c === $char;});
   }
 
+  function isC($char) {
+    return SatisfyC(function($c) use($char){return $c === $char;});
+  }
+
   function isNot($char) {
     return Satisfy(function($c) use($char){return $c !== $char;});
   }
