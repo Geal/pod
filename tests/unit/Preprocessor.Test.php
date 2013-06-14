@@ -117,6 +117,7 @@ class ParserTest extends lime_test {
     $f = \POD\fundec();
     $this->verif($f, "abc = (x) -> { 1 }", "", "function abc(\$x){ 1 ;\n}", "parse function declarations");
     $this->verif($f, "abc = (x) -> { 1\n b }", "", "function abc(\$x){ 1;\n\$b ;\n}", "parse function declarations");
+    $this->verif($f, "abc = (x) -> {\n ret 1 }", "", "function abc(\$x){\n return 1 ;\n}", "parse function declarations");
   }
 
   public function operatorStatementTest() {
@@ -124,6 +125,13 @@ class ParserTest extends lime_test {
     $this->verif($o, "ret 1", "", "return 1", "parse return statement");
   }
 
+  public function classTest() {
+    $c = \POD\classdec();
+    $this->verif($c, "A = {}", "", "class A{}", "parse class declaration");
+    $this->verif($c, "A ( B ) = {}", "", "class A extends B{}", "parse class declaration");
+    $this->verif($c, "A ( B ) = {a}", "", "class A extends B{\$a;\n}", "parse class body");
+    $this->verif($c, "A = { a\n b}", "", "class A{ \$a;\n\$b;\n}", "parse class body");
+  }
 }
 
 $test = new ParserTest();
@@ -136,4 +144,5 @@ $test->assignmentTest();
 $test->functionTest();
 $test->functionDeclarationTest();
 $test->operatorStatementTest();
+$test->classTest();
 ?>

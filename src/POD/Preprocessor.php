@@ -138,3 +138,29 @@ function fun() {
 function fundec() {
   return Seq(replace(rspaces(), "function "), func_name(), replace(Seq(rspaces(), is("="), rspaces()), ""), fun());
 }
+
+function class_statement() {
+  return Seq(variable(), replace(spaces(), ";\n"));
+}
+
+function classbody() {
+  return Seq(is('{'), spaces(),
+    C(
+      is('}'),
+      Seq(manys(class_statement()), is('}'))
+    )
+  );
+}
+function classname() {
+  return func_name();
+}
+
+function classdec() {
+  return Seq(
+    replace(rspaces(), "class "),
+    classname(),
+    opt(Seq(replace(rspaces(), " extends "), replace(is('('), ""), replace(rspaces(), ""), classname(), replace(Seq(rspaces(), is(')')), ""))),
+    replace(Seq(rspaces(), is('='), rspaces()), ""),
+    classbody()
+  );
+}
