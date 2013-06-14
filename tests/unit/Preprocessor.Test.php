@@ -67,7 +67,7 @@ class ParserTest extends lime_test {
   }
 
   public function functionTest() {
-    $f = \POD\fun();
+    $f = \POD\funcall();
     $this->verif($f, 'a()', '', 'a()', 'parse functions');
     $this->verif($f, 'a(b)', '', 'a($b)', 'parse functions with one parameter');
     $this->verif($f, 'a(1, b)', '', 'a(1, $b)', 'parse functions with multiple parameters');
@@ -110,6 +110,10 @@ class ParserTest extends lime_test {
     $this->verif($a, 'abc=1+2 + x', "", '$abc=1+2 + $x', "parse assignments of operations");
   }
 
+  public function functionDeclarationTest() {
+    $f = \POD\fundec();
+    $this->verif($f, "abc = (x) -> { 1 }", "", 'function abc  ($x)  { 1 }', "parse function declarations");
+  }
 }
 
 $test = new ParserTest();
@@ -120,5 +124,5 @@ $test->operationTest();
 $test->expressionTest();
 $test->assignmentTest();
 $test->functionTest();
-
+$test->functionDeclarationTest();
 ?>

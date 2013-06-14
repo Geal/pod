@@ -82,12 +82,12 @@ function func_name() {
   return Seq(alpha(), lists(C(alphanum(), is("_"))));
 }
 
-function fun() {
+function funcall() {
   return Seq(C(Seq(is('$'), func_name()), func_name()), rspaces(), is('('), rspaces(), parameter_list());
 }
 
 function raw_expression() {
-  return C(fun(), C(str(), C(number(), variable())));
+  return C(funcall(), C(str(), C(number(), variable())));
 }
 
 function concatenable() {
@@ -115,4 +115,25 @@ function leftval() {
 
 function assignment() {
   return Seq(rspaces(), leftval(), rspaces(), is("="), expression());
+}
+
+function funbody() {
+  return Seq(is('{'), rspaces(),
+      C(is('}'),
+      Seq(lazy(function(){return raw_statement();}), rspaces(), is('}'))
+    ));
+      /*C(
+        Seq(raw_statement(), rspaces(), is('}')),
+        manys(C(is('}'), Seq(rspaces(), statement(), rspaces())))
+      )
+    )
+  );*/
+}
+
+function fun() {
+  return Seq(is('('), parameter_list(), rspaces(), replace(Seq(is('-'), is('>')), ""), rspaces(), funbody());
+}
+
+function fundec() {
+  return Seq(replace(rspaces(), "function "), func_name(), rspaces(), replace(is("="), ""), rspaces(), fun());
 }
