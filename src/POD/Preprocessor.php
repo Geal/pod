@@ -131,9 +131,9 @@ function funbody() {
 }
 
 function fun() {
-  return Seq(is('('), parameter_list(), rspaces(), replace(Seq(is('-'), is('>')), ""), rspaces(), funbody());
+  return Seq(is('('), parameter_list(), replace(Seq(rspaces(), is('-'), is('>'), rspaces()), ""), funbody());
 }
 
 function fundec() {
-  return Seq(replace(rspaces(), "function "), func_name(), rspaces(), replace(is("="), ""), rspaces(), fun());
+  return Seq(replace(rspaces(), "function "), func_name(), replace(Seq(rspaces(), is("="), rspaces()), ""), fun());
 }

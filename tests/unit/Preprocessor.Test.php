@@ -112,7 +112,7 @@ class ParserTest extends lime_test {
 
   public function functionDeclarationTest() {
     $f = \POD\fundec();
-    $this->verif($f, "abc = (x) -> { 1 }", "", 'function abc  ($x)  { 1 }', "parse function declarations");
+    $this->verif($f, "abc = (x) -> { 1 }", "", 'function abc($x){ 1 }', "parse function declarations");
   }
 }
 
