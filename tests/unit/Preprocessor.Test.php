@@ -80,6 +80,9 @@ class ParserTest extends lime_test {
     $res = $s->parse("abc \n ab")->get();
     $this->is($res->fst, " ab", "a statement on every line");
     $this->is($res->snd, "\$abc ;\n", "a statement on every line");
+    $r = \POD\raw_statement();
+    $this->verif($r, "ret a", '', 'return $a', "parse return statements");
+    $this->verif($r, "print a", '', 'print $a', "parse print statements");
 
     $v = \POD\variable();
     $this->verif($v, "ab1_c", "", '$ab1_c', "a variable can contains letters, numbers and underscores");
@@ -115,6 +118,12 @@ class ParserTest extends lime_test {
     $this->verif($f, "abc = (x) -> { 1 }", "", "function abc(\$x){ 1 ;\n}", "parse function declarations");
     $this->verif($f, "abc = (x) -> { 1\n b }", "", "function abc(\$x){ 1;\n\$b ;\n}", "parse function declarations");
   }
+
+  public function operatorStatementTest() {
+    $o = \POD\operatorStatement();
+    $this->verif($o, "ret 1", "", "return 1", "parse return statement");
+  }
+
 }
 
 $test = new ParserTest();
@@ -126,4 +135,5 @@ $test->expressionTest();
 $test->assignmentTest();
 $test->functionTest();
 $test->functionDeclarationTest();
+$test->operatorStatementTest();
 ?>

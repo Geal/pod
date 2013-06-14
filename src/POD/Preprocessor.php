@@ -40,8 +40,15 @@ function strContent() {
   return lists(C(Seq(is('\\'), is('"')), isNot('"')));
 }
 
+function operatorStatement() {
+  return C(
+          Seq(replace(isStr("ret"), "return"), rspaces(), lazy(function(){return expression();})),
+          Seq(isStr("print"), rspaces(), lazy(function(){return expression();}))
+        );
+}
+
 function raw_statement() {
-  return C(assignment(), C(fundec(), expression()));
+  return C(operatorStatement(), C(assignment(), C(fundec(), expression())));
 }
 
 function statement() {
