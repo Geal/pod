@@ -140,9 +140,16 @@ function fundec() {
 }
 
 function class_statement() {
-  return C(
-           Seq(fundec(), replace(spaces(), "\n")),
-           Seq(variable(), replace(spaces(), ";\n"))
+  return Seq(
+           C(
+             replace(is('+'), "static public "),
+             replace(is('-'), "public ")
+           ),
+           replace(rspaces(), ""),
+           C(
+             Seq(fundec(), replace(spaces(), "\n")),
+             Seq(variable(), replace(spaces(), ";\n"))
+           )
          );
 }
 

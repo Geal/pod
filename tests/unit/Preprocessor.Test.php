@@ -129,9 +129,9 @@ class ParserTest extends lime_test {
     $c = \POD\classdec();
     $this->verif($c, "A = {}", "", "class A{}", "parse class declaration");
     $this->verif($c, "A ( B ) = {}", "", "class A extends B{}", "parse class declaration");
-    $this->verif($c, "A ( B ) = {a}", "", "class A extends B{\$a;\n}", "parse class body");
-    $this->verif($c, "A = { a\n b}", "", "class A{ \$a;\n\$b;\n}", "parse class body");
-    $this->verif($c, "A = { y= (z)-> { ret 1+1}}", "", "class A{ function y(\$z){ return 1+1;\n}\n}", "parse class body with methods");
+    $this->verif($c, "A ( B ) = {- a}", "", "class A extends B{public \$a;\n}", "parse class body");
+    $this->verif($c, "A = { - a\n -b}", "", "class A{ public \$a;\npublic \$b;\n}", "parse class body");
+    $this->verif($c, "A = { +y= (z)-> { ret 1+1}}", "", "class A{ static public function y(\$z){ return 1+1;\n}\n}", "parse class body with methods");
   }
 }
 
