@@ -131,6 +131,7 @@ class ParserTest extends lime_test {
     $this->verif($c, "A ( B ) = {}", "", "class A extends B{}", "parse class declaration");
     $this->verif($c, "A ( B ) = {a}", "", "class A extends B{\$a;\n}", "parse class body");
     $this->verif($c, "A = { a\n b}", "", "class A{ \$a;\n\$b;\n}", "parse class body");
+    $this->verif($c, "A = { y= (z)-> { ret 1+1}}", "", "class A{ function y(\$z){ return 1+1;\n}\n}", "parse class body with methods");
   }
 }
 

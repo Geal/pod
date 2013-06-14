@@ -140,7 +140,10 @@ function fundec() {
 }
 
 function class_statement() {
-  return Seq(variable(), replace(spaces(), ";\n"));
+  return C(
+           Seq(fundec(), replace(spaces(), "\n")),
+           Seq(variable(), replace(spaces(), ";\n"))
+         );
 }
 
 function classbody() {
