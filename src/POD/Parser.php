@@ -285,6 +285,24 @@ TypeClassRepo::registerInstance(new LazyParserFunctor());
     );
   }
 
+  //creates a parser verifying the presence of a string
+  //$fun :: String -> Bool
+  function isStr($str) {
+    return new Parser(function($s) use($str){
+      $cnt = strlen($str);
+      $cmp = substr($s, 0, $cnt);
+      if(!$cmp or $cmp === "") {
+        return new Maybe(null);
+      } else {
+        if($str !== $cmp){
+          return new Maybe(null);
+        } else {
+          return new Maybe(new Tuple(substr($s, $cnt), $str));
+        }
+      }
+    });
+  }
+
   //creates a parser verifying that the next character is a specific character
   function is($char) {
     return Satisfy(function($c) use($char){return $c === $char;});
