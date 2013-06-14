@@ -120,7 +120,7 @@ function assignment() {
 function funbody() {
   return Seq(is('{'), rspaces(),
       C(is('}'),
-      Seq(lazy(function(){return raw_statement();}), rspaces(), is('}'))
+      Seq(lazy(function(){return raw_statement();}), replace(rspaces(), ";"), is('}'))
     ));
       /*C(
         Seq(raw_statement(), rspaces(), is('}')),
