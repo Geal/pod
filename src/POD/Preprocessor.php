@@ -79,7 +79,7 @@ function func_name() {
 }
 
 function fun() {
-  return Seq(func_name(), rspaces(), is('('), rspaces(), parameter_list());
+  return Seq(C(Seq(is('$'), func_name()), func_name()), rspaces(), is('('), rspaces(), parameter_list());
 }
 
 function raw_expression() {

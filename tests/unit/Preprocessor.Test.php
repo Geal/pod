@@ -72,6 +72,7 @@ class ParserTest extends lime_test {
     $this->verif($f, 'a(b)', '', 'a($b)', 'parse functions with one parameter');
     $this->verif($f, 'a(1, b)', '', 'a(1, $b)', 'parse functions with multiple parameters');
     $this->verif($f, 'x(y())', '', 'x(y())', 'parse nested function calls');
+    $this->verif($f, '$z(1)', '', '$z(1)', 'for variables containing anonymous functions, prefix with a dollar');
   }
 
   public function expressionTest() {
