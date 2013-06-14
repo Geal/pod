@@ -44,7 +44,7 @@ function operatorStatement() {
   return C(
           Seq(replace(isStr("ret"), "return"), rspaces(), lazy(function(){return expression();})),
           C(
-            Seq(isStr("print"), rspaces(), lazy(function(){return expression();})),
+            Seq(isStr("print"), rspaces(), expression()),
             Seq(isStr("new"), rspaces(), funcall())
           )
         );
