@@ -40,8 +40,12 @@ function strContent() {
   return lists(C(Seq(is('\\'), is('"')), isNot('"')));
 }
 
+function raw_statement() {
+  return C(assignment(), C(fundec(), expression()));
+}
+
 function statement() {
-  return Seq(lists(isNotIn(array("\r", "\n"))), replace(eol(), ";\n"));
+  return Seq(raw_statement(), rspaces(), replace(eol(), ";\n"));
 }
 
 function raw_variable() {

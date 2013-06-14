@@ -79,7 +79,7 @@ class ParserTest extends lime_test {
     $s = \POD\statement();
     $res = $s->parse("abc \n ab")->get();
     $this->is($res->fst, " ab", "a statement on every line");
-    $this->is($res->snd, "abc ;\n", "a statement on every line");
+    $this->is($res->snd, "\$abc ;\n", "a statement on every line");
 
     $v = \POD\variable();
     $this->verif($v, "ab1_c", "", '$ab1_c', "a variable can contains letters, numbers and underscores");
