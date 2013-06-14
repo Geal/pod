@@ -123,6 +123,7 @@ class ParserTest extends lime_test {
   public function operatorStatementTest() {
     $o = \POD\operatorStatement();
     $this->verif($o, "ret 1", "", "return 1", "parse return statement");
+    $this->verif($o, "new A(b, c)", "", 'new A($b, $c)', "parse new statement");
   }
 
   public function classTest() {
