@@ -134,6 +134,13 @@ class ParserTest extends lime_test {
     $this->verif($c, "A = { - a\n -b}", "", "class A{ public \$a;\npublic \$b;\n}", "parse class body");
     $this->verif($c, "A = { +y= (z)-> { ret 1+1}}", "", "class A{ static public function y(\$z){ return 1+1;\n}\n}", "parse class body with methods");
   }
+
+  public function memberAccessTest() {
+    $m = \POD\memberAccess();
+    $this->verif($m, "a.b", '', '$a->b', "parse attribute access");
+    $this->verif($m, "a.b(x)", '', '$a->b($x)', "parse method access");
+    $this->verif($m, "a.b.c", '', '$a->b->c', "parse nested attribute access");
+  }
 }
 
 $test = new ParserTest();
@@ -147,4 +154,5 @@ $test->functionTest();
 $test->functionDeclarationTest();
 $test->operatorStatementTest();
 $test->classTest();
+$test->memberAccessTest();
 ?>

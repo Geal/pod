@@ -78,6 +78,14 @@ function operator() {
   return C(is("-"), C(is("/"), C(is("+"), is("*"))));
 }
 
+function memberAccess() {
+  return Seq(variable(), replace(is('.'), "->"), nextMemberAccess());
+}
+
+function nextMemberAccess() {
+  return Seq(C(funcall(), raw_variable()), opt(lazy(function(){ return Seq(replace(is('.'), "->"), nextMemberAccess());})));
+}
+
 function parameter_list() {
   return C(
            Seq(rspaces(), is(')')), // empty parameter list
