@@ -125,7 +125,7 @@ function assignment() {
 }
 
 function funbody() {
-  return Seq(is('{'), rspaces(),
+  return Seq(is('{'), spaces(),
       C(is('}'),
       Seq(manys(Seq(lazy(function(){return raw_statement();}), replace(spaces(), ";\n"))), is('}'))
     ));
