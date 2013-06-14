@@ -150,7 +150,7 @@ TypeClassRepo::registerInstance(new LazyParserFunctor());
   function logp($p, $msg) {
     return new Parser(function($s) use($p, $msg) {
       $res = $p->parse($s);
-      print "$msg: $s -> $res\n";
+      print "$msg: |$s| -> |$res|\n";
       return $res;
     });
   }
