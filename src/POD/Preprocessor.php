@@ -51,7 +51,7 @@ function operatorStatement() {
 }
 
 function raw_statement() {
-  return C(operatorStatement(), C(assignment(), C(fundec(), expression())));
+  return C(operatorStatement(), C(assignment(), C(classdec(), C(fundec(), expression()))));
 }
 
 function statement() {
