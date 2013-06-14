@@ -1,0 +1,9 @@
+<html>
+<head></head>
+<body>
+<?
+  a = "Hello " + "World!"
+?>
+  <h1><? print a ?></h1>
+</body>
+</html>
