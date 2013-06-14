@@ -303,6 +303,17 @@ TypeClassRepo::registerInstance(new LazyParserFunctor());
     });
   }
 
+  function opt($p) {
+    return new Parser(function($s) use($p){
+      $r = $p->parse($s);
+      if($r->isEmpty()){
+        return new Maybe(new Tuple($s, ""));
+      } else {
+        return $r;
+      }
+    });
+  }
+
   //creates a parser verifying that the next character is a specific character
   function is($char) {
     return Satisfy(function($c) use($char){return $c === $char;});

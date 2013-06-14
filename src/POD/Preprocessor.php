@@ -61,7 +61,7 @@ function raw_variable() {
 
 //a variable begins with a letter
 function variable() {
-  $parser = C(Seq(is('$'), raw_variable()), raw_variable());
+  $parser = Seq(opt(is('$')), raw_variable());
   $p = __t($parser);
   $p2 = $p->map(function($s){return '$'.$s;});
   return $p2();
@@ -90,7 +90,7 @@ function func_name() {
 }
 
 function funcall() {
-  return Seq(C(Seq(is('$'), func_name()), func_name()), rspaces(), is('('), rspaces(), parameter_list());
+  return Seq(Seq(opt(is('$')), func_name()), rspaces(), is('('), rspaces(), parameter_list());
 }
 
 function raw_expression() {
