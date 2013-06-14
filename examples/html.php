@@ -2,10 +2,11 @@
 <head></head>
 <body>
 <?php
-  $a = "Hello " + "World!"
+  $a = "Hello " . "World!";
+
 ?>
   <h1><?php
-$print $a 
+print $a ;
 ?></h1>
 </body>
 </html>
