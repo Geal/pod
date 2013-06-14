@@ -21,11 +21,11 @@ function wrappedPHP() {
 function omnomnom() { return lists(C(endTag(), expression()));}
 
 function openTag() {
-  return replace(Seq(is('<'), is('?'), space()), "<?php\n");
+  return replace(Seq(isStr('<?'), space()), "<?php\n");
 }
 
 function endTag() {
-  return replace(Seq(is('?'), is('>')), "\n?>");
+  return replace(isStr('?>'), "\n?>");
 }
 
 function number() {
@@ -132,7 +132,7 @@ function funbody() {
 }
 
 function fun() {
-  return Seq(is('('), parameter_list(), replace(Seq(rspaces(), is('-'), is('>'), rspaces()), ""), funbody());
+  return Seq(is('('), parameter_list(), replace(Seq(rspaces(), isStr('->'), rspaces()), ""), funbody());
 }
 
 function fundec() {
