@@ -120,14 +120,8 @@ function assignment() {
 function funbody() {
   return Seq(is('{'), rspaces(),
       C(is('}'),
-      Seq(lazy(function(){return raw_statement();}), replace(rspaces(), ";"), is('}'))
+      Seq(manys(Seq(lazy(function(){return raw_statement();}), replace(spaces(), ";\n"))), is('}'))
     ));
-      /*C(
-        Seq(raw_statement(), rspaces(), is('}')),
-        manys(C(is('}'), Seq(rspaces(), statement(), rspaces())))
-      )
-    )
-  );*/
 }
 
 function fun() {
