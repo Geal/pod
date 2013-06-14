@@ -105,7 +105,7 @@ function funcall() {
 }
 
 function raw_expression() {
-  return C(funcall(), C(str(), C(number(), variable())));
+  return C(funcall(), C(memberAccess(), C(str(), C(number(), variable()))));
 }
 
 function concatenable() {
