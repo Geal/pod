@@ -19,8 +19,8 @@ if($res->isEmpty()) {
 } else {
   $h = fopen($output, 'w');
   $m = $res->get();
-  print "parsed: $m\n";
   fwrite($h, $m->snd);
   fclose($h);
+  print "success\n";
 }
 ?>
