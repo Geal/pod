@@ -15,10 +15,15 @@ function all() {
 }
 
 function wrappedPHP() {
-  return Seq(logp(openTag(), "open tag"), omnomnom());
+  return Seq(openTag(), omnomnom());
 }
 
-function omnomnom() { return lists(C(endTag(), statement()));}
+function omnomnom() {
+  return C(
+    Seq(raw_statement(), replace(rspaces(), ";"), endTag()),
+    lists(C(endTag(), statement()))
+  );
+}
 
 function openTag() {
   return replace(Seq(isStr('<?'), space()), "<?php\n");
