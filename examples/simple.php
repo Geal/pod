@@ -3,5 +3,6 @@
 function abc($x, $y){
    return $x. $y;
 };
+print "hello";
 
 ?>

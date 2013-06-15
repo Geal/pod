@@ -3,4 +3,5 @@
  abc = (x, y) -> {
    ret x+ y
  }
+print "hello"
 ?>
