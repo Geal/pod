@@ -55,6 +55,17 @@ function operatorStatement() {
         );
 }
 
+function condition() {
+  return Seq(is('('), rspaces(), raw_statement(), rspaces(), is(')'));
+}
+
+function ifStatement() {
+  return Seq(
+    isStr("if"), rspaces(), condition(), rspaces(), is('{'), funbody(),
+    lists(Seq(isStr("elif"), rspaces(), condition(), rspaces(), is('{'), funbody())),
+    opt(Seq(isStr("else"), rspaces(), is('{'), funbody()))
+  );
+}
 
 function raw_statement() {
   return C(operatorStatement(), assignment(), classdec(), fundec(), expression());
