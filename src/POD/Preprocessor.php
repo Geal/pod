@@ -55,8 +55,9 @@ function operatorStatement() {
         );
 }
 
+
 function raw_statement() {
-  return C(operatorStatement(), C(assignment(), C(classdec(), C(fundec(), expression()))));
+  return C(operatorStatement(), assignment(), classdec(), fundec(), expression());
 }
 
 function statement() {
@@ -80,7 +81,7 @@ function operation() {
 }
 
 function operator() {
-  return C(is("-"), C(is("/"), C(is("+"), is("*"))));
+  return C(is("-"), is("/"), is("+"), is("*"));
 }
 
 function memberAccess() {
@@ -110,7 +111,7 @@ function funcall() {
 }
 
 function raw_expression() {
-  return C(funcall(), C(memberAccess(), C(str(), C(number(), variable()))));
+  return C(funcall(), memberAccess(), str(), number(), variable());
 }
 
 function concatenable() {

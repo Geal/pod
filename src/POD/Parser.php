@@ -166,16 +166,29 @@ TypeClassRepo::registerInstance(new LazyParserFunctor());
     });
   }
 
-  //Choice function: tries the first parser, and if unsuccessful, tries the second
-  function C($p1, $p2) {
-    return new Parser(function($s) use($p1, $p2){
-      $r = $p1->parse($s);
-      if($r->isEmpty()){
-        return $p2->parse($s);
-      } else {
-        return $r;
-      }
-    });
+  //Choice function: tries a parser, and if unsuccessful, tries the next, for each argument
+  function C() {
+    $arr = func_get_args();
+    return Carr($arr);
+  }
+
+  function Carr($arr) {
+    if(count($arr) === 0) {
+      return Value("");
+    } else if (count($arr) == 1) {
+      return $arr[0];
+    } else {
+      return new Parser(function($s) use ($arr) {
+        $first = array_shift($arr);
+        $r = $first->parse($s);
+        if($r->isEmpty()){
+          $p = Carr($arr);
+          return $p->parse($s);
+        } else {
+          return $r;
+        }
+      });
+    }
   }
 
   function Ignore($p1, $p2) {
