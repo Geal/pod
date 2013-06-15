@@ -61,9 +61,9 @@ function condition() {
 
 function ifStatement() {
   return Seq(
-    isStr("if"), rspaces(), condition(), rspaces(), is('{'), funbody(),
-    lists(Seq(isStr("elif"), rspaces(), condition(), rspaces(), is('{'), funbody())),
-    opt(Seq(isStr("else"), rspaces(), is('{'), funbody()))
+    isStr("if"), rspaces(), condition(), rspaces(), funbody(),
+    lists(Seq(isStr("elif"), rspaces(), condition(), rspaces(), funbody())),
+    opt(Seq(isStr("else"), rspaces(), funbody()))
   );
 }
 
