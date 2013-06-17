@@ -220,11 +220,11 @@ TypeClassRepo::registerInstance(new LazyParserFunctor());
   //Same as sequence, but joinq the result in a string
   function Seq() {
     $arr = func_get_args();
-    return s(Sequence($arr));
+    return arrayToString(Sequence($arr));
   }
 
   //transform array results in strings
-  function s($p) {
+  function arrayToString($p) {
     $p2 = __t($p)->map(function($arr){return implode($arr);});
     return $p2();
   }
@@ -355,8 +355,10 @@ TypeClassRepo::registerInstance(new LazyParserFunctor());
   function digit()     { return Satisfy(is_numeric);};
   function space()     { return Satisfy(ctype_space);};
   function spaces()    { return lists(space());};
+  function s()         { return lists(space());};
   function rspace()    { return isIn(array(" ", "\t"));};
   function rspaces()   { return lists(isIn(array(" ", "\t")));};
+  function rs()        { return rspaces(); }
   function upper()     { return Satisfy(ctype_upper);};
   function lower()     { return Satisfy(ctype_lower);};
   function alpha()     { return Satisfy(ctype_alpha);};

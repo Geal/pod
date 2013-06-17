@@ -20,7 +20,7 @@ function wrappedPHP() {
 
 function omnomnom() {
   return C(
-    Seq(raw_statement(), replace(rspaces(), ";"), endTag()),
+    Seq(raw_statement(), replace(rs(), ";"), endTag()),
     lists(C(endTag(), statement()))
   );
 }
@@ -47,23 +47,23 @@ function strContent() {
 
 function operatorStatement() {
   return C(
-          Seq(replace(isStr("ret"), "return"), rspaces(), lazy(function(){return expression();})),
+          Seq(replace(isStr("ret"), "return"), rs(), lazy(function(){return expression();})),
           C(
-            Seq(isStr("print"), rspaces(), expression()),
-            Seq(isStr("new"), rspaces(), funcall())
+            Seq(isStr("print"), rs(), expression()),
+            Seq(isStr("new"), rs(), funcall())
           )
         );
 }
 
 function condition() {
-  return Seq(is('('), rspaces(), raw_statement(), rspaces(), is(')'));
+  return Seq(is('('), rs(), raw_statement(), rs(), is(')'));
 }
 
 function ifStatement() {
   return Seq(
-    isStr("if"), rspaces(), condition(), rspaces(), funbody(),
-    lists(Seq(isStr("elif"), rspaces(), condition(), rspaces(), funbody())),
-    opt(Seq(isStr("else"), rspaces(), funbody()))
+    isStr("if"), rs(), condition(), rs(), funbody(),
+    lists(Seq(isStr("elif"), rs(), condition(), rs(), funbody())),
+    opt(Seq(isStr("else"), rs(), funbody()))
   );
 }
 
@@ -72,7 +72,7 @@ function raw_statement() {
 }
 
 function statement() {
-  return Seq(raw_statement(), rspaces(), replace(eol(), ";\n"));
+  return Seq(raw_statement(), rs(), replace(eol(), ";\n"));
 }
 
 function raw_variable() {
@@ -105,7 +105,7 @@ function nextMemberAccess() {
 
 function parameter_list() {
   return C(
-           Seq(rspaces(), is(')')), // empty parameter list
+           Seq(rs(), is(')')), // empty parameter list
            Seq(lazy(function(){return expression();}), // first parameter
                lists(Seq(is(','), lazy(function(){return expression();}))), // parameter list
                is(')')
@@ -118,7 +118,7 @@ function func_name() {
 }
 
 function funcall() {
-  return Seq(Seq(opt(is('$')), func_name()), rspaces(), is('('), rspaces(), parameter_list());
+  return Seq(Seq(opt(is('$')), func_name()), rs(), is('('), rs(), parameter_list());
 }
 
 function raw_expression() {
@@ -134,13 +134,13 @@ function operations_suffix() {
 }
 
 function concatenations_suffix() {
-  return manys(Seq(replace(is("+"), "."), rspaces(), concatenable(), rspaces()));
+  return manys(Seq(replace(is("+"), "."), rs(), concatenable(), rs()));
 }
 
 function expression() {
   return C(
-           Seq(rspaces(), concatenable(), rspaces(), concatenations_suffix()),
-           Seq(rspaces(), raw_expression(), rspaces(), operations_suffix())
+           Seq(rs(), concatenable(), rs(), concatenations_suffix()),
+           Seq(rs(), raw_expression(), rs(), operations_suffix())
          );
 }
 
@@ -149,22 +149,22 @@ function leftval() {
 }
 
 function assignment() {
-  return Seq(rspaces(), leftval(), rspaces(), is("="), expression());
+  return Seq(rs(), leftval(), rs(), is("="), expression());
 }
 
 function funbody() {
   return Seq(is('{'), spaces(),
       C(is('}'),
-      Seq(manys(Seq(lazy(function(){return raw_statement();}), replace(spaces(), ";\n"))), is('}'))
+      Seq(manys(Seq(lazy(function(){return raw_statement();}), replace(s(), ";\n"))), is('}'))
     ));
 }
 
 function fun() {
-  return Seq(is('('), parameter_list(), replace(Seq(rspaces(), isStr('->'), rspaces()), ""), funbody());
+  return Seq(is('('), parameter_list(), replace(Seq(rs(), isStr('->'), rs()), ""), funbody());
 }
 
 function fundec() {
-  return Seq(replace(rspaces(), "function "), func_name(), replace(Seq(rspaces(), is("="), rspaces()), ""), fun());
+  return Seq(replace(rs(), "function "), func_name(), replace(Seq(rs(), is("="), rs()), ""), fun());
 }
 
 function class_statement() {
@@ -173,16 +173,16 @@ function class_statement() {
              replace(is('+'), "static public "),
              replace(is('-'), "public ")
            ),
-           replace(rspaces(), ""),
+           replace(rs(), ""),
            C(
-             Seq(fundec(), replace(spaces(), "\n")),
-             Seq(variable(), replace(spaces(), ";\n"))
+             Seq(fundec(), replace(s(), "\n")),
+             Seq(variable(), replace(s(), ";\n"))
            )
          );
 }
 
 function classbody() {
-  return Seq(is('{'), spaces(),
+  return Seq(is('{'), s(),
     C(
       is('}'),
       Seq(manys(class_statement()), is('}'))
@@ -195,10 +195,10 @@ function classname() {
 
 function classdec() {
   return Seq(
-    replace(rspaces(), "class "),
+    replace(rs(), "class "),
     classname(),
-    opt(Seq(replace(rspaces(), " extends "), replace(is('('), ""), replace(rspaces(), ""), classname(), replace(Seq(rspaces(), is(')')), ""))),
-    replace(Seq(rspaces(), is('='), rspaces()), ""),
+    opt(Seq(replace(rs(), " extends "), replace(is('('), ""), replace(rs(), ""), classname(), replace(Seq(rs(), is(')')), ""))),
+    replace(Seq(rs(), is('='), rs()), ""),
     classbody()
   );
 }
