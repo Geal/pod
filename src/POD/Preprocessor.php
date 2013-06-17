@@ -75,12 +75,16 @@ function forStatement() {
     rs(), raw_statement(), is(')'), funbody());
 }
 
+function whileStatement() {
+  return Seq(isStr('while'), rs(), condition(), rs(), funbody());
+}
+
 function raw_statement() {
   return C(operatorStatement(), assignment(), classdec(), fundec(), expression());
 }
 
 function statement() {
-  return Seq(raw_statement(), rs(), replace(eol(), ";\n"));
+  return Seq(C(raw_statement(), ifStatement(), forStatement(), whileStatement()), rs(), replace(eol(), ";\n"));
 }
 
 function raw_variable() {
