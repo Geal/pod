@@ -26,7 +26,7 @@ function omnomnom() {
 }
 
 function openTag() {
-  return replace(Seq(isStr('<?'), space()), "<?php\n");
+  return replace(Seq(isStr('<?'), s()), "<?php\n");
 }
 
 function endTag() {
