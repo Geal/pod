@@ -67,6 +67,14 @@ function ifStatement() {
   );
 }
 
+function forStatement() {
+  return Seq(
+    isStr("for"), rs(), is('('),
+    rs(), raw_statement(), rs(), is(';'),
+    rs(), raw_statement(), rs(), is(';'),
+    rs(), raw_statement(), is(')'), funbody());
+}
+
 function raw_statement() {
   return C(operatorStatement(), assignment(), classdec(), fundec(), expression());
 }
