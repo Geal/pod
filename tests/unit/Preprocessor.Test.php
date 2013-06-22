@@ -83,6 +83,8 @@ class ParserTest extends lime_test {
     $r = \POD\raw_statement();
     $this->verif($r, "ret a", '', 'return $a', "parse return statements");
     $this->verif($r, "print a", '', 'print htmlentities($a)', "parse print statements");
+    $this->verif($r, "a = 1", '', '$a = 1', "parse assignments");
+    $this->verif($r, 'str = "abc"', '', '$str = "abc"', "parse assignments");
 
     $v = \POD\variable();
     $this->verif($v, "ab1_c", "", '$ab1_c', "a variable can contains letters, numbers and underscores");
