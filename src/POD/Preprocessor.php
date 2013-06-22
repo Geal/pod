@@ -181,8 +181,14 @@ function fundec() {
 function class_statement() {
   return Seq(
            C(
-             replace(is('+'), "static public "),
-             replace(is('-'), "public ")
+             replace(is('+'), "static "),
+             replace(is('-'), "")
+           ),
+           replace(rs(), ""),
+           C(
+             replace(is('\\'), "private "),
+             replace(is('|'), "protected "),
+             replace(is('/'), "public ")
            ),
            replace(rs(), ""),
            C(

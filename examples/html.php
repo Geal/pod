@@ -11,7 +11,7 @@ print htmlentities($a );
 
 <?php
 class A{
-    public $value;
+    private $value;
 static public function mul($x, $y){ return $x * $y ;
 }
 public function __construct($val){ $this->value = $val ;

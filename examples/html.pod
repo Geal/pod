@@ -8,10 +8,10 @@
 
 <?
     A  = {
-    - value
-    + mul = (x, y) -> { ret x * y }
-    - __construct = (val) -> { this.value = val }
-    - show = () -> { print this.value }
+    -\ value
+    +/ mul = (x, y) -> { ret x * y }
+    -/ __construct = (val) -> { this.value = val }
+    -/ show = () -> { print this.value }
   }
 
 str = "<script>alert('pouet')</script>"
