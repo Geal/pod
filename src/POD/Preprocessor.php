@@ -127,7 +127,7 @@ function parameter_list() {
 }
 
 function func_name() {
-  return Seq(alpha(), lists(C(alphanum(), is("_"))));
+  return Seq(lists(C(alphanum(), is("_"))));
 }
 
 function funcall() {
