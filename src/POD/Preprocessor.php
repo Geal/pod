@@ -160,7 +160,7 @@ function leftval() {
 }
 
 function assignment() {
-  return Seq(rs(), leftval(), rs(), is("="), expression());
+  return Seq(s(), leftval(), rs(), is("="), expression());
 }
 
 function funbody() {
