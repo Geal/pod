@@ -5,5 +5,18 @@
   a = "Hello " + "World!"
 ?>
   <h1><? print a ?></h1>
+
+<?
+    A  = {
+    - value
+    + mul = (x, y) -> { ret x * y }
+    - __construct = (val) -> { this.value = val }
+    - show = () -> { print this.value }
+  }
+
+str = "<script>alert('pouet')</script>"
+obj = new A(str)
+obj.show()
+?>
 </body>
 </html>
