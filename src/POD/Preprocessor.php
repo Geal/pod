@@ -158,7 +158,7 @@ function expression() {
 }
 
 function leftval() {
-  return variable();
+  return C(memberAccess(), variable());
 }
 
 function assignment() {
