@@ -14,7 +14,7 @@ the `src/POD/` directory contains `Parser.php` and `Preprocessor.php`. Parser co
 
 # Unit tests
 
-To prevent regressions in the compiler while adding features, unit tests are stored in `tests/unit`. To launch them, use the `lanuch_tests` script at the repository's root, or launch an individual file like this:
+To prevent regressions in the compiler while adding features, unit tests are stored in `tests/unit`. To launch them, use the `launch_tests` script at the repository's root, or launch an individual file like this:
 
   $ php tests/unit/Preprocessor.Test.php
 
