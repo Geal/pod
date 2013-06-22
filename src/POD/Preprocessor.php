@@ -20,7 +20,8 @@ function wrappedPHP() {
 
 function omnomnom() {
   return C(
-    Seq(raw_statement(), replace(rs(), ";"), endTag()),
+    Seq(rs(), eol()),
+    Seq(rs(), raw_statement(), replace(rs(), ";"), endTag()),
     lists(C(endTag(), statement()))
   );
 }
@@ -48,11 +49,8 @@ function strContent() {
 function operatorStatement() {
   return C(
           Seq(replace(isStr("ret"), "return"), rs(), lazy(function(){return expression();})),
-          C(
-            Seq(isStr("print"), rs(), Value("htmlentities("), expression(),Value(")")),
-            Seq(isStr("echo"), rs(), Value("htmlentities("), expression(),Value(")")),
-            Seq(isStr("new"), rs(), funcall())
-          )
+          Seq(isStr("print"), rs(), Value("htmlentities("), expression(),Value(")")),
+          Seq(isStr("echo"), rs(), Value("htmlentities("), expression(),Value(")"))
         );
 }
 
@@ -80,6 +78,9 @@ function whileStatement() {
   return Seq(isStr('while'), rs(), condition(), rs(), funbody());
 }
 
+function newStatement() {
+  return Seq(rs(), isStr("new"), rs(),funcall());
+}
 function raw_statement() {
   return C(operatorStatement(), assignment(), classdec(), fundec(), expression());
 }
@@ -135,7 +136,7 @@ function funcall() {
 }
 
 function raw_expression() {
-  return C(funcall(), memberAccess(), str(), number(), variable());
+  return C(newStatement(), funcall(), memberAccess(), str(), number(), variable());
 }
 
 function concatenable() {

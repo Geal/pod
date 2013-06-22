@@ -100,6 +100,7 @@ class ParserTest extends lime_test {
     $this->verif($e, '2 * abc',   "", '2 * $abc',   "expression can parse variable operations");
     $this->verif($e, '"a" + "b"',   "", '"a" . "b"',   "expression can parse string concatenation");
     $this->verif($e, 'a+ "b"',   "", '$a. "b"',   "expression can parse variable and string concatenation");
+    $this->verif($e, "new A(b, c)", "", 'new A($b, $c)', "parse new statement");
   }
 
   public function assignmentTest() {
@@ -124,7 +125,6 @@ class ParserTest extends lime_test {
   public function operatorStatementTest() {
     $o = \POD\operatorStatement();
     $this->verif($o, "ret 1", "", "return 1", "parse return statement");
-    $this->verif($o, "new A(b, c)", "", 'new A($b, $c)', "parse new statement");
   }
 
   public function classTest() {
