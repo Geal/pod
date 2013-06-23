@@ -1,5 +1,5 @@
 #!/usr/bin/php
-<?
+<?php
 require dirname(__DIR__)."/src/POD/Preprocessor.php";
 
 if(count($argv) < 2) {
