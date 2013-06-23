@@ -1,3 +1,5 @@
+all: check examples
+
 check:
 	@./tests/launch_tests
 
