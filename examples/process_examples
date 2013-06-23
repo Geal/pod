@@ -1,0 +1,6 @@
+#!/bin/bash
+php=$(which php);
+
+for example in $(dirname $0)/*.pod; do
+    $php $(dirname $0)/../bin/pod.php $example;
+done;
