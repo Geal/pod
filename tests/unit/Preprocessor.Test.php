@@ -123,6 +123,7 @@ class ParserTest extends lime_test {
     $this->verif($f, "abc = (x) -> {\n ret 1 }", "", "function abc(\$x){\n return 1 ;\n}", "parse function declarations");
     $this->verif($f, "__construct  =  ( val ) -> { this.value = val }", "", "function __construct( \$val ){ \$this->value = \$val ;\n}", "parse function declarations");
     $this->verif($f, "abc = (x, y) -> { ret x + y }" , "", "function abc(\$x, \$y){ return \$x . \$y ;\n}", "parse function declarations");
+    $this->verif($f, "9abc = (x, y) -> { ret x + y }" , "", NULL, "parse function declarations");
   }
 
   public function operatorStatementTest() {

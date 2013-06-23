@@ -1,7 +1,8 @@
 <?php
 $a = 1+1;
- abc = (x, y) -> {
-   ret x+ y
- }
-print "hello"
+function abc($x, $y){
+   return $x. $y;
+};
+print htmlentities("hello");
+
 ?>

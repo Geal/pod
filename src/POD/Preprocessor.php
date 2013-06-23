@@ -124,12 +124,12 @@ function parameter_list() {
          );
 }
 
-function func_name() {
-  return Seq(lists(C(alphanum(), is("_"))));
+function funname() {
+  return Seq(C(alpha(), is("_")), lists(C(alphanum(), is("_"))));
 }
 
 function funcall() {
-  return Seq(Seq(opt(is('$')), func_name()), rs(), is('('), rs(), parameter_list());
+  return Seq(Seq(opt(is('$')), funname()), rs(), is('('), rs(), parameter_list());
 }
 
 function raw_expression() {
@@ -175,7 +175,7 @@ function fun() {
 }
 
 function fundec() {
-  return Seq(replace(rs(), "function "), func_name(), replace(Seq(rs(), is("="), rs()), ""), fun());
+  return Seq(replace(rs(), "function "), funname(), replace(Seq(rs(), is("="), rs()), ""), fun());
 }
 
 function class_statement() {
@@ -207,7 +207,7 @@ function classbody() {
   );
 }
 function classname() {
-  return func_name();
+  return funname();
 }
 
 function classdec() {
